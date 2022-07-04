@@ -1,5 +1,11 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Academy Demo CloudFormation
+
+Parameters:
+  LatestAmiId:
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-x86_64-gp2"
+
 Resources:
   MyS3Bucket:
     Type: AWS::S3::Bucket
@@ -7,3 +13,11 @@ Resources:
       BucketName: "tiinans3cf"
   MyQueue:
     Type: AWS::SQS::Queue
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t3.micro
+      ImageId: !Ref LatestAmiId
+      Tags:
+        - Key: Name
+          Value: TiinanEC2cf
