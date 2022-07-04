@@ -2,6 +2,8 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Academy Demo CloudFormation
 Resources:
   MyS3Bucket:
-    Type: "AWS::S3::Bucket"
+    Type: AWS::S3::Bucket
     Properties:
       BucketName: "tiinans3cf"
+  MyQueue:
+    Type: AWS::SQS::Queue
