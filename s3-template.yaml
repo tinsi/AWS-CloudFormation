@@ -21,3 +21,14 @@ Resources:
       Tags:
         - Key: Name
           Value: TiinanEC2cf
+  MyLoadBalancer:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Listeners:
+        - LoadBalancerPort: "80"
+          InstancePort: "80"
+          Protocol: HTTP
+      Subnets:
+        - subnet-04014b79f5d358982
+        - subnet-03cb17b85212448ad
