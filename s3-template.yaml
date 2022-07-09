@@ -15,16 +15,49 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: "tiinans3cf"
+
   MyQueue:
     Type: AWS::SQS::Queue
+
+  EC2InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: TiinanOmaSG2
+      GroupDescription: Taspa taa
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: TiinanOmaSG
+
+  LBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: TiinanLBSC
+      GroupDescription: Taspa taa
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: TiinanOmaLBSG
+
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t3.micro
       ImageId: !Ref LatestAmiId
+      SecurityGroups:
+        - !Ref EC2InstanceSecurityGroup
       Tags:
         - Key: Name
           Value: TiinanEC2cf
+
   MyLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
@@ -36,3 +69,5 @@ Resources:
       Subnets:
         - subnet-04014b79f5d358982
         - subnet-03cb17b85212448ad
+      SecurityGroups:
+        - !Ref LBSecurityGroup
